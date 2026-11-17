@@ -10,14 +10,15 @@ nabinno/agent-skills の `agent-browser-current-browser`（Windows + WSL2 向け
 
 1. Chrome 144 以降を使います。標準のユーザーデータディレクトリ（`~/Library/Application Support/Google/Chrome`）を前提にしています。Chrome Beta など別の場所を使うときは `CDP_CHROME_USER_DATA_DIR` を設定してください。
 2. Node 22 以降と `python3` を `PATH` に置きます。
-3. 操作したい Chrome で `chrome://inspect/#remote-debugging` を開き、リモートデバッグをオンにします。そのブラウザは開いたままにします。
-4. スキルとして使うには、このディレクトリを `~/.claude/skills/` にリンクします。
+3. システム設定の「プライバシーとセキュリティ」→「フルディスクアクセス」で、Claude Code を実際に動かしているアプリをオンにし、そのアプリを再起動します。オンにしないと、`DevToolsActivePort` を読めず `Operation not permitted` で失敗します。見えているターミナルとは別のアプリが動かしている場合があります。`ps -o comm= -p <親の PID>` で親プロセスをたどるか、`$__CFBundleIdentifier` を見て確かめてください。
+4. 操作したい Chrome で `chrome://inspect/#remote-debugging` を開き、リモートデバッグをオンにします。そのブラウザは開いたままにします。
+5. スキルとして使うには、このディレクトリを `~/.claude/skills/` にリンクします。
 
    ```bash
    ln -s ~/src/big2men-agent-skills/agent-browser-current-browser ~/.claude/skills/agent-browser-current-browser
    ```
 
-5. Chrome のプロファイルごとに 1 回、付属の拡張機能を入れます。
+6. Chrome のプロファイルごとに 1 回、付属の拡張機能を入れます。
 
    ```bash
    CB=~/src/big2men-agent-skills/agent-browser-current-browser/scripts/cb

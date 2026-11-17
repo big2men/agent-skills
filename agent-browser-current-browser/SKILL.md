@@ -19,7 +19,18 @@ and the user agrees to a fallback.
    `CDP_CHROME_USER_DATA_DIR`. Node 22+ (global `WebSocket`) and `python3`
    must be on `PATH`; macOS has no `timeout` command, so cb does not use one.
 
-2. **Remote debugging must be toggled ON in the target Chrome window**
+2. **Full Disk Access for the app that runs the agent.** macOS protects
+   other apps' data under `~/Library/Application Support` (the directory
+   carries `com.apple.macl`). Without the permission, reading
+   `DevToolsActivePort` and `Local State` fails with
+   `[Errno 1] Operation not permitted`, even though `ls` works. Grant it in
+   System Settings → Privacy & Security → Full Disk Access, to the app that
+   actually runs Claude Code, then restart that app. That is not always the
+   terminal you see: find it with `ps -o comm= -p <ppid>` up the process
+   chain, or `$__CFBundleIdentifier`. If it fails with this error, tell the
+   user to grant the permission; do not work around it.
+
+3. **Remote debugging must be toggled ON in the target Chrome window**
    by the user, via `chrome://inspect/#remote-debugging` (Chrome 144+). This
    is a runtime UI toggle, not a launch flag — it does NOT require closing
    the browser or any tabs. Ask the user to open that URL and enable it if
